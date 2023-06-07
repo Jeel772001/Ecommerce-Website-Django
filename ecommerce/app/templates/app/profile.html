@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <h3>Welcome {{request.user}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'profile' %}" class="btn {{active}}">Profile</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
+   </ul>
+  </div>
+  <div class="col-sm-8 offset-sm-1">
+   <form action="" method="post" novalidate>
+    {% if messages %}
+    {% for msg in messages %}
+      <p {% if msg.tags%} class="alert alert-{{msg.tags}} mb-5" {% endif %}>{{msg}}</p>
+    {% endfor %}
+    {% endif %}
+
+    {% csrf_token %}
+    {% for fm in form %}
+    <div class="form-group mb-3">
+     {{fm.label_tag}}{{fm}}<small class="text-danger">{{fm.errors|striptags}}</small><br>
+    </div>
+    {% endfor %}
+    <small><a href="{% url 'password_reset' %}">Forgot Password ?</a></small><br>
+    <input type="submit" value="Submit" class="btn btn-primary my-3">
+
+
+   </form>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
